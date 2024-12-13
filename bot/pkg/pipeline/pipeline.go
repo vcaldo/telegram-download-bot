@@ -34,23 +34,23 @@ func CheckCompletedDownloads(ctx context.Context, updateChan chan<- *redisutils.
 			Name:  *download.Name,
 			State: redisutils.Downloaded,
 		}
-		log.Printf("New download completion detected: %s", d.Name)
-		// Check if download exists in Redis
-		// exists, err := r.Client.DownloadExists(ctx, d.ID)
-		// if err != nil {
-		// 	log.Printf("error checking redis: %v", err)
-		// 	continue
-		// }
 
-		// // Store in Redis and push to channel if new
-		// if !exists {
-		// 	log.Printf("New download completion detected: %s", d.Name)
-		// 	if err := r.Client.RegisterDownloadState(ctx, d); err != nil {
-		// 		log.Printf("error storing in redis: %v", err)
-		// 		continue
-		// 	}
-		// 	updateChan <- d
-		// }
+		// Check if download exists in Redis
+		exists, err := r.DownloadExists(ctx, d.ID)
+		if err != nil {
+			log.Printf("error checking redis: %v", err)
+			continue
+		}
+
+		// Store in Redis and push to channel if new
+		if !exists {
+			log.Printf("New download completion detected: %s", d.Name)
+			if err := r.RegisterDownloadState(ctx, d); err != nil {
+				log.Printf("error storing in redis: %v", err)
+				continue
+			}
+			updateChan <- &d
+		}
 	}
 	return nil
 }
@@ -61,6 +61,20 @@ func ProcessUpdate(ctx context.Context, update *redisutils.Download) error {
 		return fmt.Errorf("error creating redis client: %v", err)
 	}
 	defer r.Client.Close()
+
+	// Process different states
+	switch update.State {
+	case redisutils.Downloaded:
+
+		log.Printf("Download ready to compress: %d", update.ID)
+	case redisutils.Compressed:
+		log.Printf("Download ready to upload: %d", update.ID)
+	case redisutils.Uploaded:
+		log.Printf("Download ready to be deleted: %d", update.ID)
+	default:
+		log.Printf("Download %d transitioned to: %s", update.ID, update.State)
+		return nil
+	}
 
 	return nil
 }

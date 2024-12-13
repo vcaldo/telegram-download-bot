@@ -39,14 +39,15 @@ func main() {
 	}()
 
 	updateChan := make(chan *redisutils.Download)
-	ticker := time.NewTicker(10 * time.Second)
-	defer ticker.Stop()
+
+	ticker10 := time.NewTicker(10 * time.Second)
+	defer ticker10.Stop()
 	go func() {
 		for {
 			select {
 			case <-ctx.Done():
 				return
-			case <-ticker.C:
+			case <-ticker10.C:
 				pipeline.CheckCompletedDownloads(ctx, updateChan)
 			}
 		}

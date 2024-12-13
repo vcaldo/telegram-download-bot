@@ -55,7 +55,7 @@ func newRedisClient(ctx context.Context, addr, password string, db int) (*RedisC
 }
 
 func (r *RedisClient) DownloadExists(ctx context.Context, id int64) (bool, error) {
-	val, err := r.Client.HExists(ctx, fmt.Sprintf("%s:%d", DownloadsHash, id), "state").Result()
+	val, err := r.Client.HExists(ctx, fmt.Sprintf("%s:%d", DownloadsHash, id), StateKey).Result()
 	if err != nil {
 		return false, fmt.Errorf("redis check failed: %w", err)
 	}
