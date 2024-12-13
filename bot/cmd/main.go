@@ -10,6 +10,8 @@ import (
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
 	"github.com/vcaldo/telegram-download-bot/bot/pkg/handlers"
+	"github.com/vcaldo/telegram-download-bot/bot/pkg/pipeline"
+	"github.com/vcaldo/telegram-download-bot/bot/pkg/redisutils"
 )
 
 func main() {
@@ -31,10 +33,30 @@ func main() {
 		panic(err)
 	}
 
+	// Start the bot in a goroutine
 	go func() {
 		b.Start(ctx)
 	}()
 
+	updateChan := make(chan *redisutils.Download)
+	ticker := time.NewTicker(10 * time.Second)
+	defer ticker.Stop()
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				pipeline.CheckCompletedDownloads(ctx, updateChan)
+			}
+		}
+	}()
+
+	for update := range updateChan {
+		pipeline.ProcessUpdate(ctx, update)
+	}
+
+	// Wait for the context to be done
 	select {}
 }
 
