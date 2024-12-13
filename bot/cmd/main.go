@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"github.com/vcaldo/telegram-download-bot/bot/pkg/handlers"
 )
 
 func main() {
@@ -30,12 +31,26 @@ func main() {
 		panic(err)
 	}
 
-	b.Start(ctx)
+	go func() {
+		b.Start(ctx)
+	}()
+
+	select {}
 }
 
 func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
-	b.SendMessage(ctx, &bot.SendMessageParams{
-		ChatID: update.Message.Chat.ID,
-		Text:   update.Message.Text,
-	})
+	if !handlers.IsUserAllowed(ctx, b, update) {
+		return
+	}
+
+	switch {
+	// handle text message
+	case update.Message != nil && update.Message.Text != "":
+		handlers.HandleTextMessage(ctx, b, update)
+		return
+	// handle Documents
+	case update.Message != nil && update.Message.Document != nil:
+		handlers.HandleDocument(ctx, b, update)
+		return
+	}
 }
