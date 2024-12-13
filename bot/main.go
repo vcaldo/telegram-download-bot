@@ -30,7 +30,12 @@ func main() {
 		panic(err)
 	}
 
-	b.Start(ctx)
+	go func() {
+		b.Start(ctx)
+	}()
+
+	// Wait for the interrupt signal
+	select {}
 }
 
 func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
