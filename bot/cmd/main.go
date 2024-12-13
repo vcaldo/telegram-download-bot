@@ -30,7 +30,12 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	b.Start(ctx)
+
+	go func() {
+		b.Start(ctx)
+	}()
+
+	select {}
 }
 
 func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
