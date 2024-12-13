@@ -34,6 +34,14 @@ services:
       - transmission-config:/config
       - transmission-downloads:/downloads
     restart: unless-stopped
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - redis-data:/data
+    ports:
+      - 6379:6379
+    restart: unless-stopped  
   bot:
     image: bot:latest
     container_name: bot
@@ -53,5 +61,6 @@ services:
       - transmission
     restart: unless-stopped
 volumes:
+  redis-data:
   transmission-config:
   transmission-downloads:
