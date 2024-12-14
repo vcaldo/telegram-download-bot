@@ -7,9 +7,12 @@ services:
       - secrets.env
     ports:
       - 8081:8081
+    volumes:
+      - telegram-bot-api-server-storage:/storage      
     entrypoint: [
       "telegram-bot-api",
       "--local",
+      "--dir=/storage",
       "--verbosity=1"
       ]
     restart: unless-stopped
@@ -56,11 +59,27 @@ services:
       - secrets.env
     volumes:
       - transmission-downloads:/downloads
+      - telegram-bot-api-server-storage:/storage
     depends_on:
       - telegram-bot-api-server
       - transmission
     restart: unless-stopped
+  splitter:
+    image: splitter:latest
+    container_name: splitter
+    build:
+      context: splitter/
+      dockerfile: Dockerfile
+    environment:
+      - TRANSMISSION_URL=transmission
+      - REDIS_ADDR=redis:6379
+    volumes:
+      - transmission-downloads:/downloads
+    depends_on:
+      - redis
+    restart: unless-stopped
 volumes:
   redis-data:
+  telegram-bot-api-server-storage:
   transmission-config:
   transmission-downloads:

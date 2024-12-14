@@ -65,7 +65,7 @@ func (r *RedisClient) DownloadExists(ctx context.Context, id int64) (bool, error
 }
 
 func (r *RedisClient) RegisterDownloadState(ctx context.Context, d Download) error {
-	log.Printf("Storing download in Redis: %s", d.Name)
+	log.Printf("Storing download in Redis: %s - %s", d.Name, d.State)
 	err := r.Client.HSet(ctx, fmt.Sprintf("%s:%d", DownloadsHash, d.ID), []string{
 		NameKey, d.Name,
 		StateKey, d.State}).Err()
@@ -131,7 +131,6 @@ func (r *RedisClient) RegisterDownloadState(ctx context.Context, d Download) err
 	default:
 		log.Println("Unknown state")
 	}
-
 	return nil
 }
 
@@ -158,6 +157,5 @@ func (r *RedisClient) GetDownloadName(ctx context.Context, id int64) (string, er
 	if err != nil {
 		return "", fmt.Errorf("redis get failed: %w", err)
 	}
-
 	return val, nil
 }

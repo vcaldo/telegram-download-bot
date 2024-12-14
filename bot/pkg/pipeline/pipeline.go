@@ -65,7 +65,6 @@ func ProcessUpdate(ctx context.Context, update *redisutils.Download) error {
 	// Process different states
 	switch update.State {
 	case redisutils.Downloaded:
-
 		log.Printf("Download ready to compress: %d", update.ID)
 	case redisutils.Compressed:
 		log.Printf("Download ready to upload: %d", update.ID)
@@ -75,6 +74,5 @@ func ProcessUpdate(ctx context.Context, update *redisutils.Download) error {
 		log.Printf("Download %d transitioned to: %s", update.ID, update.State)
 		return nil
 	}
-
 	return nil
 }
