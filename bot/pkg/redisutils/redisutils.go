@@ -17,7 +17,7 @@ const (
 	Uploading              = "uploading"
 	Uploaded               = "uploaded"
 	Removed                = "removed"
-	failed                 = "failed"
+	Failed                 = "failed"
 	NameKey                = "name"
 	StateKey               = "state"
 	CompletedDownloadsPath = "/downloads/complete"
@@ -120,6 +120,11 @@ func (r *RedisClient) RegisterDownloadState(ctx context.Context, d Download) err
 			return fmt.Errorf("redis set failed: %w", err)
 		}
 		err = r.Client.SRem(ctx, Uploaded, d.ID).Err()
+		if err != nil {
+			return fmt.Errorf("redis set failed: %w", err)
+		}
+	case Failed:
+		err = r.Client.SAdd(ctx, Failed, d.ID).Err()
 		if err != nil {
 			return fmt.Errorf("redis set failed: %w", err)
 		}
