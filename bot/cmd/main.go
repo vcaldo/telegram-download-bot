@@ -49,6 +49,8 @@ func main() {
 				return
 			case <-ticker10.C:
 				pipeline.CheckReadyToUpload(ctx, updateChan)
+			case <-ticker10.C:
+				pipeline.CheckReadyToRemove(ctx, updateChan)
 			}
 		}
 	}()

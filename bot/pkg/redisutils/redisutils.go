@@ -16,6 +16,7 @@ const (
 	Compressed             = "compressed"
 	Uploading              = "uploading"
 	Uploaded               = "uploaded"
+	Removing               = "removing"
 	Removed                = "removed"
 	Failed                 = "failed"
 	NameKey                = "name"
