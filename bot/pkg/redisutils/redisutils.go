@@ -19,7 +19,7 @@ const (
 	Removed                = "removed"
 	NameKey                = "name"
 	StateKey               = "state"
-	ComplatedDownloadsPath = "/downloads/complete"
+	CompletedDownloadsPath = "/downloads/complete"
 	UploadsReadyPath       = "/downloads/uploads"
 	DownloadsHash          = "downloads"
 )
