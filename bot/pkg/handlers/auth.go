@@ -67,6 +67,5 @@ func unauthorizedMessage(ctx context.Context, b *bot.Bot, update *models.Update)
 	if err != nil {
 		return fmt.Errorf("failed to send unauthorized message: %v", err)
 	}
-
 	return nil
 }

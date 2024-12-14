@@ -125,7 +125,6 @@ func (r *RedisClient) RegisterDownloadState(ctx context.Context, d Download) err
 	default:
 		log.Println("Unknown state")
 	}
-
 	return nil
 }
 
@@ -144,7 +143,6 @@ func (r *RedisClient) GetDownloadState(ctx context.Context, state string) ([]int
 		}
 		ids = append(ids, id)
 	}
-
 	return ids, nil
 }
 
@@ -153,6 +151,5 @@ func (r *RedisClient) GetDownloadName(ctx context.Context, id int64) (string, er
 	if err != nil {
 		return "", fmt.Errorf("redis get failed: %w", err)
 	}
-
 	return val, nil
 }

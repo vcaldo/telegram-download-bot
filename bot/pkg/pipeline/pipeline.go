@@ -74,6 +74,5 @@ func ProcessUpdate(ctx context.Context, update *redisutils.Download) error {
 		log.Printf("Download %d transitioned to: %s", update.ID, update.State)
 		return nil
 	}
-
 	return nil
 }

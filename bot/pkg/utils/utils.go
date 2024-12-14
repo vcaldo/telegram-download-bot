@@ -27,7 +27,6 @@ func AddTorrentFromFile(ctx context.Context, b *bot.Bot, fileID string, fileName
 		log.Printf("failed to add torrent: %v", err)
 		return nil, err
 	}
-
 	return addedTorrent, nil
 }
 
@@ -42,6 +41,5 @@ func AddTorrentFromMagnet(ctx context.Context, magnet string) (*transmissionrpc.
 	if err != nil {
 		return nil, err
 	}
-
 	return addedTorrent, nil
 }
