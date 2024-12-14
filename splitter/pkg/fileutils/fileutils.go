@@ -26,7 +26,7 @@ func CompressDownload(ctx context.Context, download *redisutils.Download) error 
 	}
 
 	source := filepath.Join(redisutils.CompletedDownloadsPath, download.Name)
-	destination := filepath.Join(redisutils.UploadsReadyPath, download.Name)
+	destination := filepath.Join(redisutils.UploadsReadyPath, download.Name, download.Name)
 	if err := compressAndSplitDownload(ctx, source, destination); err != nil {
 		return fmt.Errorf("compress and split failed: %w", err)
 
