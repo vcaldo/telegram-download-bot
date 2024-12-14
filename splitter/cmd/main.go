@@ -30,7 +30,7 @@ func main() {
 	// Goroutine to process downloads one at a time
 	go func() {
 		for download := range downloadChan {
-			fileutils.CompressAndSplitDownload(ctx, download)
+			fileutils.CompressDownload(ctx, download)
 		}
 	}()
 
