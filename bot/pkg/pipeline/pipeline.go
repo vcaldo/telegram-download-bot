@@ -47,7 +47,7 @@ func CheckCompletedDownloads(ctx context.Context, updateChan chan<- *redisutils.
 
 		// Store in Redis and push to channel if new
 		if !exists {
-			log.Printf("New download completion detected: %s", d.Name)
+			log.Printf("New download completion detected: %.24s...", d.Name)
 			if err := r.RegisterDownloadState(ctx, d); err != nil {
 				log.Printf("error storing in redis: %v", err)
 				continue

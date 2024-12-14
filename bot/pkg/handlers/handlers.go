@@ -16,7 +16,7 @@ func HandleTextMessage(ctx context.Context, b *bot.Bot, update *models.Update) {
 	switch {
 	// handle magnet link
 	case regexp.MustCompile(`magnet:\?xt=urn:.+`).MatchString(update.Message.Text):
-		log.Printf("processing magnet link: %s", update.Message.Text)
+		log.Printf("processing magnet link: %.24s...", update.Message.Text)
 		torrent, err := utils.AddTorrentFromMagnet(ctx, update.Message.Text)
 		if err != nil {
 			log.Printf("failed to add torrent: %v", err)
