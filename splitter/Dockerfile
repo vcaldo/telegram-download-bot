@@ -14,6 +14,7 @@ RUN CGO_ENABLED=0 go build -o /splitter  ./cmd
 
 FROM alpine:3.21
 
+RUN apk add --no-cache p7zip
 COPY --from=builder /splitter /splitter
 
 CMD ["/splitter"]
