@@ -50,10 +50,10 @@ func UploadDir(ctx context.Context, b *bot.Bot, download redisutils.Download) er
 
 	_, err = b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID: chatIdInt,
-		Text:   download.Name,
+		Text:   fmt.Sprintf("🎬 %s 🎬", download.Name),
 	})
 	if err != nil {
-		fmt.Errorf("failed to send message: %v", err)
+		return fmt.Errorf("failed to send message: %v", err)
 
 	}
 	return nil
