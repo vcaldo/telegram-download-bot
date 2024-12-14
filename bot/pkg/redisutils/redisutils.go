@@ -17,6 +17,7 @@ const (
 	Uploading              = "uploading"
 	Uploaded               = "uploaded"
 	Removed                = "removed"
+	failed                 = "failed"
 	NameKey                = "name"
 	StateKey               = "state"
 	CompletedDownloadsPath = "/downloads/complete"
