@@ -31,6 +31,13 @@ func CompressDownload(ctx context.Context, download *redisutils.Download) error 
 		return fmt.Errorf("compress and split failed: %w", err)
 
 	}
+
+	// Set download state to compressed
+	log.Printf("Setting download state to compressed: %s\n", download.Name)
+	download.State = redisutils.Compressed
+	if err := r.RegisterDownloadState(ctx, *download); err != nil {
+		return fmt.Errorf("set download state failed: %w", err)
+	}
 	return nil
 }
 
