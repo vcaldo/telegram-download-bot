@@ -8,8 +8,6 @@ RUN go mod download
 
 COPY . .
 
-COPY *.go ./
-
 RUN CGO_ENABLED=0 go build -o /download_bot  ./cmd
 
 FROM alpine:3.21
