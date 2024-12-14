@@ -144,6 +144,7 @@ func (r *RedisClient) GetDownloadState(ctx context.Context, state string) ([]int
 		}
 		ids = append(ids, id)
 	}
+
 	return ids, nil
 }
 
