@@ -48,13 +48,13 @@ func main() {
 			case <-ctx.Done():
 				return
 			case <-ticker10.C:
-				pipeline.CheckCompletedDownloads(ctx, updateChan)
+				pipeline.CheckReadyToUpload(ctx, updateChan)
 			}
 		}
 	}()
 
 	for update := range updateChan {
-		pipeline.ProcessUpdate(ctx, update)
+		pipeline.ProcessUpdate(ctx, b, update)
 	}
 
 	// Wait for the context to be done
