@@ -88,29 +88,25 @@ services:
     restart: unless-stopped
 volumes:
   redis-data:
-    driver: 
-      - local
+    driver: local
     driver_opts:
       type: none
       o: bind
       device: /mnt/storage/redis_data
   telegram-bot-api-server-storage:
-    driver: 
-      - local
+    driver: local
     driver_opts:
       type: none
       o: bind
       device: /mnt/storage/telegram_bot_api_server_storage
   transmission-config:
-    driver: 
-      - local
+    driver: local
     driver_opts:
       type: none
       o: bind
       device: /mnt/storage/transmission_config 
   transmission-downloads:
-    driver: 
-      - local
+    driver: local
     driver_opts:
       type: none
       o: bind
