@@ -66,7 +66,7 @@ func (r *RedisClient) DownloadExists(ctx context.Context, id int64) (bool, error
 }
 
 func (r *RedisClient) RegisterDownloadState(ctx context.Context, d Download) error {
-	log.Printf("Storing download in Redis: %s - %s", d.Name, d.State)
+	log.Printf("Storing download in Redis: %.24s... - %s", d.Name, d.State)
 	err := r.Client.HSet(ctx, fmt.Sprintf("%s:%d", DownloadsHash, d.ID), []string{
 		NameKey, d.Name,
 		StateKey, d.State}).Err()
